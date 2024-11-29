@@ -2,6 +2,11 @@
 
 This is a simple file system simulator built in C++ that provides a command-line interface (CLI) for managing files and directories. The file system structure uses a **modified tree** for directories and **modified hash tables** for storing files and subdirectories efficiently.
 
+![C++](https://img.shields.io/badge/Language-C%2B%2B-blue?style=flat-square) 
+
+![DSA LAB](https://img.shields.io/badge/DSA%20LAB-blue?style=flat-square)
+![BM23BTECH11020 | BM23BTECH11013](https://img.shields.io/badge/BM23BTECH11020%20%7C%20BM23BTECH11013-red?style=flat-square)
+
 ## Data Structures
 
 The system uses the following data structures:
