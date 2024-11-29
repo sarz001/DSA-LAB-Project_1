@@ -160,8 +160,9 @@ Directory contents of dir1:
 Directory contents of /:
 [DIR] dir1
 
+```
 
-## Conclusion
+##Conclusion
 
 This file system simulator provides an easy-to-use interface for managing files and directories. It leverages a **tree structure** to manage directories and **hash tables** to store files and subdirectories efficiently. The implementation allows for common file system operations like creating and deleting files and directories, navigating directories, and saving/loading the file system to/from a file.
 
