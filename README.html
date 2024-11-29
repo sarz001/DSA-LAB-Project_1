@@ -1,153 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File System Simulator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1, h2 {
-            color: #5c6bc0;
-        }
-        code {
-            background-color: #e0e0e0;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-        pre {
-            background-color: #333;
-            color: #f5f5f5;
-            padding: 15px;
-            border-radius: 6px;
-            overflow: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #5c6bc0;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .command {
-            background-color: #2196F3;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-        .example {
-            background-color: #388E3C;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-    </style>
-</head>
-<body>
-    <h1>File System Simulator</h1>
-    <p>This is a simple file system simulator built in C++ that implements a hierarchical file structure using modified trees and hash tables. The simulator includes basic file and directory management features such as creating files, reading their contents, deleting files, changing directories, and more. It is operated via a command-line interface (CLI).</p>
+# File System Simulator
 
-    <h2>Data Structures</h2>
-    <p>The file system uses two main data structures to manage files and directories:</p>
-    <ul>
-        <li><strong>Modified Tree (for directories):</strong> Each directory is represented as a node with pointers to its subdirectories, which form a tree structure.</li>
-        <li><strong>Modified Hash Table (for files):</strong> Each directory stores its files in an unordered map (hash table) for efficient file storage and retrieval.</li>
-    </ul>
+This is a simple file system simulator built in C++ that provides a command-line interface (CLI) for managing files and directories. The file system structure uses a **modified tree** for directories and **modified hash tables** for storing files and subdirectories efficiently.
 
-    <h2>CLI Commands</h2>
-    <p>Below is a list of the available commands in the file system simulator CLI:</p>
+## Data Structures
 
-    <table>
-        <thead>
-            <tr>
-                <th>Command</th>
-                <th>Description</th>
-                <th>Data Structure Interaction</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><code class="command">mkdir &lt;dirName&gt;</code></td>
-                <td>Creates a new directory with the specified name.</td>
-                <td>Adds a new entry in the <code>subDirs</code> hash table of the current directory.</td>
-            </tr>
-            <tr>
-                <td><code class="command">touch &lt;fileName&gt;</code></td>
-                <td>Creates a new file with the specified name and optional content.</td>
-                <td>Adds a new entry in the <code>files</code> hash table of the current directory.</td>
-            </tr>
-            <tr>
-                <td><code class="command">cat &lt;fileName&gt;</code></td>
-                <td>Displays the content of the specified file.</td>
-                <td>Looks up the file in the <code>files</code> hash table and prints its content.</td>
-            </tr>
-            <tr>
-                <td><code class="command">rm &lt;fileName&gt;</code></td>
-                <td>Deletes the specified file.</td>
-                <td>Removes the file from the <code>files</code> hash table and frees its memory.</td>
-            </tr>
-            <tr>
-                <td><code class="command">rmdir &lt;dirName&gt;</code></td>
-                <td>Deletes the specified directory (if empty).</td>
-                <td>Removes the directory from the <code>subDirs</code> hash table of the current directory if it is empty, and frees its memory.</td>
-            </tr>
-            <tr>
-                <td><code class="command">cd &lt;dirName&gt;</code></td>
-                <td>Changes the current working directory to the specified directory.</td>
-                <td>Updates <code>currentDir</code> to point to the target directory using the <code>subDirs</code> hash table or the <code>parent</code> pointer.</td>
-            </tr>
-            <tr>
-                <td><code class="command">ls</code></td>
-                <td>Lists the files and subdirectories in the current directory.</td>
-                <td>Iterates through the <code>files</code> hash table for files and <code>subDirs</code> for subdirectories.</td>
-            </tr>
-            <tr>
-                <td><code class="command">pwd</code></td>
-                <td>Prints the full path of the current directory.</td>
-                <td>Traverses the <code>parent</code> pointers of the current directory and prints the path.</td>
-            </tr>
-            <tr>
-                <td><code class="command">find &lt;name&gt;</code></td>
-                <td>Searches for a file or directory by name.</td>
-                <td>Recursively searches the <code>files</code> and <code>subDirs</code> hash tables for matches.</td>
-            </tr>
-            <tr>
-                <td><code class="command">printall</code></td>
-                <td>Prints all files and directories starting from the root directory.</td>
-                <td>Recursively traverses the directory tree, printing all directories and files.</td>
-            </tr>
-            <tr>
-                <td><code class="command">save &lt;filename&gt;</code></td>
-                <td>Saves the entire file system structure to a file.</td>
-                <td>Recursively writes directory and file names, including contents, to the specified file.</td>
-            </tr>
-            <tr>
-                <td><code class="command">load &lt;filename&gt;</code></td>
-                <td>Loads the file system structure from a saved file.</td>
-                <td>Reads the file system from the specified file and reconstructs the structure by populating <code>subDirs</code> and <code>files</code>.</td>
-            </tr>
-        </tbody>
-    </table>
+The system uses the following data structures:
 
-    <h2>Example Usage</h2>
-    <p>Here is an example of how to use all the available commands:</p>
+1. **Modified Tree (for Directories)**:  
+   - The **Directory** class represents directories and maintains a tree structure through a parent pointer (`parent`) and subdirectories (`subDirs`).  
+   - The parent pointer helps navigate up the directory tree (e.g., for the `cd ..` command), while the `subDirs` unordered map enables efficient searching for subdirectories.
 
-    <pre>
+2. **Modified Hash Tables (for Files and Subdirectories)**:  
+   - **`files` (unordered_map<string, File*>)**: Stores files within the directory, allowing efficient file creation, deletion, and retrieval.
+   - **`subDirs` (unordered_map<string, Directory*>)**: Stores subdirectories within the directory, enabling efficient directory navigation.
+
+### Classes:
+
+#### **File**
+- **Attributes**:  
+   - `name` (string): The name of the file.
+   - `content` (string): The content of the file.
+   
+   - **Constructor**: Initializes a file with a name and optional content.
+
+#### **Directory**
+- **Attributes**:
+   - `name` (string): The name of the directory.
+   - `files` (unordered_map): A hash table of files in this directory.
+   - `subDirs` (unordered_map): A hash table of subdirectories.
+   - `parent` (Directory*): A pointer to the parent directory.
+
+   - **Constructor**: Initializes a directory with a name and an optional parent pointer.
+
+#### **FileSystem**
+- **Attributes**:
+   - `root` (Directory*): The root directory of the file system.
+   - `currentDir` (Directory*): The current working directory.
+
+### Key Methods:
+
+#### **Directory Methods**:
+- `createFile`: Creates a new file and stores it in the `files` hash table of the current directory.
+- `deleteFile`: Deletes a file from the `files` hash table.
+- `createDirectory`: Creates a subdirectory and stores it in the `subDirs` hash table.
+- `deleteDirectory`: Deletes a subdirectory from the `subDirs` hash table (only if empty).
+- `listDirectory`: Lists all files and subdirectories in the current directory.
+- `changeDirectory`: Changes the current directory to the specified directory.
+- `printCurrentDirectory`: Prints the full path of the current directory by traversing parent pointers.
+- `saveToFile`: Saves the file system structure to a file.
+- `loadFromFile`: Loads the file system structure from a saved file.
+- `search`: Searches for a file or directory by name recursively.
+
+---
+
+## CLI Commands
+
+### Command List
+
+| **Command**           | **Description**                                                                 | **Data Structure Interaction** |
+|-----------------------|---------------------------------------------------------------------------------|--------------------------------|
+| **mkdir <dirName>**    | Creates a new directory with the specified name.                                | Adds a new entry in the `subDirs` hash table of the current directory (`Directory::subDirs`). |
+| **touch <fileName>**   | Creates a new file with the specified name and optional content.                | Adds a new entry in the `files` hash table of the current directory (`Directory::files`). |
+| **cat <fileName>**     | Displays the content of the specified file.                                     | Looks up the file in the `files` hash table of the current directory (`Directory::files`) and prints its content. |
+| **rm <fileName>**      | Deletes the specified file.                                                     | Removes the file from the `files` hash table of the current directory (`Directory::files`) and frees its memory. |
+| **rmdir <dirName>**    | Deletes the specified directory (if empty).                                     | Removes the directory from the `subDirs` hash table of the current directory (`Directory::subDirs`) if it is empty, and frees its memory. |
+| **cd <dirName>**       | Changes the current working directory to the specified directory.               | Updates `currentDir` to point to the target directory, using the `subDirs` hash table of the current directory (`Directory::subDirs`) or the `parent` pointer for going up the tree. |
+| **ls**                 | Lists the files and subdirectories in the current directory.                    | Iterates through the `files` hash table to list files and the `subDirs` hash table to list subdirectories of the current directory. |
+| **pwd**                | Prints the full path of the current directory.                                  | Traverses the `parent` pointers of the current directory (`Directory::parent`) and prints the path by accumulating directory names. |
+| **find <name>**        | Searches for a file or directory by name, printing its path if found.           | Recursively searches through the `subDirs` hash table for subdirectories and the `files` hash table for files, printing the path of any matches. |
+| **printall**           | Prints all files and directories starting from the root directory.             | Recursively iterates over the entire directory tree, using the `subDirs` and `files` hash tables, and prints every directory and file starting from the root. |
+| **save <filename>**    | Saves the entire file system structure (directories, files, and contents) to a file. | Recursively traverses the directory tree, writing directory and file names along with content (from `files` hash table) to the specified file. |
+| **load <filename>**    | Loads the file system structure from a saved file.                             | Reads the file system from the specified file, populating the `subDirs` and `files` hash tables of each directory and reconstructing the tree structure. |
+
+---
+
+## Example Usage
+
+```bash
 >>> mkdir dir1
 Directory created: dir1
 
@@ -230,9 +159,3 @@ Directory contents of dir1:
 >>> ls
 Directory contents of /:
 [DIR] dir1
-    </pre>
-
-    <h2>Conclusion</h2>
-    <p>This file system simulator leverages a <strong>tree structure</strong> for directories and <strong>hash tables</strong> for efficient storage and retrieval of files and subdirectories. Each function directly interacts with these data structures to manage the file system.</p>
-</body>
-</html>
