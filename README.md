@@ -159,3 +159,61 @@ Directory contents of dir1:
 >>> ls
 Directory contents of /:
 [DIR] dir1
+
+
+## Conclusion
+
+This file system simulator provides an easy-to-use interface for managing files and directories. It leverages a **tree structure** to manage directories and **hash tables** to store files and subdirectories efficiently. The implementation allows for common file system operations like creating and deleting files and directories, navigating directories, and saving/loading the file system to/from a file.
+
+The core logic of the system is implemented in the `FileSystem` class, with directory and file management handled through efficient data structures. The CLI interface provides commands for interacting with the file system in a straightforward manner, similar to Unix-like file systems.
+
+The simulator is a great tool for understanding how file systems work internally, focusing on the use of trees for directory structures and hash tables for fast access to files.
+
+---
+
+## How to Run
+
+### Prerequisites
+
+To run the project, you need to have a C++ compiler that supports C++11 or later (e.g., GCC or Clang).
+
+### Steps to Run
+
+1. **Clone the repository** (or download the `filesystem.cpp` file).
+   
+2. **Compile the C++ source code**:
+   - Open a terminal in the directory where the `filesystem.cpp` file is located.
+   - Run the following command to compile the program:
+   
+     ```bash
+     g++ -std=c++11 -o filesystem filesystem.cpp
+     ```
+
+3. **Run the compiled program**:
+   - After compilation, run the program with the following command:
+   
+     ```bash
+     ./filesystem
+     ```
+
+4. **Interact with the File System**:
+   - The program will start the command-line interface (CLI). You can now use the commands such as `mkdir`, `touch`, `cd`, `ls`, `pwd`, `save`, and `load` to interact with the file system.
+
+5. **Exit the CLI**:
+   - To exit the program, type `exit` at the command prompt.
+
+### Example:
+
+```bash
+g++ -std=c++11 -o filesystem filesystem.cpp
+./filesystem
+>>> mkdir dir1
+Directory created: dir1
+>>> cd dir1
+>>> touch file1
+File created: file1
+>>> ls
+Directory contents of dir1:
+[FILE] file1
+>>> exit
+
